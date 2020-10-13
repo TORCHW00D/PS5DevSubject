@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    private bool FacingRight = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,20 @@ public class PlayerMovement : MonoBehaviour
         }
         if(Input.GetAxis("Horizontal") > 0.05 || Input.GetAxis("Horizontal") < -0.05)
         {
+            if (!FacingRight && Input.GetAxis("Horizontal") > 0.05)
+            {
+                FacingRight = !FacingRight;
+                Vector3 scale = transform.localScale;
+                scale.x *= -1.0f;
+                transform.localScale = scale;
+            }
+            if (FacingRight && Input.GetAxis("Horizontal") < -0.05)
+            {
+                FacingRight = !FacingRight;
+                Vector3 scale = transform.localScale;
+                scale.x *= -1.0f;
+                transform.localScale = scale;
+            }
             gameObject.transform.position += new Vector3(0.1f, 0.0f, 0.0f) * Input.GetAxis("Horizontal");
         }
     }
