@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Wall Border Top
+  m_Name: Wall_Trim_Top
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 7785258844482149393, guid: bc1c385d59a162f4e84f5769fd36c29e, type: 3}
+  m_Sprite: {fileID: -2430944025196774833, guid: bc1c385d59a162f4e84f5769fd36c29e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
