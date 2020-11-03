@@ -113,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
                 Legs.sprite = LEGpiecesRight[CurrentSprite];
                 break;
         }
-        if(SpriteUpdate + 0.5f < Time.time)
+        if(SpriteUpdate + 0.2f < Time.time)
         {
             CurrentSprite++;
             SpriteUpdate = Time.time;
