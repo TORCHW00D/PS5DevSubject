@@ -22,7 +22,7 @@ public class LevelManager : MonoBehaviour
 
     private Vector2 RoomCoord;
 
-    private enum MovementDirectionForLoad
+    public enum MovementDirectionForLoad
     {
         up, right, down, left, stop
     }
@@ -68,8 +68,15 @@ public class LevelManager : MonoBehaviour
         {
             movementDirection = MovementDirectionForLoad.left;
         }
-        
-        if(movementDirection != MovementDirectionForLoad.stop)
+
+        MovementSystem(movementDirection);
+
+    }
+
+    public void MovementSystem(MovementDirectionForLoad movement)
+    {
+        movementDirection = movement;
+        if (movementDirection != MovementDirectionForLoad.stop )
         {
             int JumpDoor = 0;
             CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room.SetActive(false);
@@ -77,28 +84,28 @@ public class LevelManager : MonoBehaviour
             switch (movementDirection)
             {
                 case MovementDirectionForLoad.up:
-                    if(RoomCoord.y > 0)
+                    if (RoomCoord.y > 0)
                     {
                         RoomCoord.y -= 1;
                         JumpDoor = 2;
                     }
                     break;
                 case MovementDirectionForLoad.left:
-                    if(RoomCoord.x > 0)
+                    if (RoomCoord.x > 0)
                     {
                         RoomCoord.x -= 1;
                         JumpDoor = 1;
                     }
                     break;
                 case MovementDirectionForLoad.down:
-                    if(RoomCoord.y < CurrentLevelLoaded[0].Length - 1)
+                    if (RoomCoord.y < CurrentLevelLoaded[0].Length - 1)
                     {
                         RoomCoord.y += 1;
                         JumpDoor = 0;
                     }
                     break;
                 case MovementDirectionForLoad.right:
-                    if(RoomCoord.x < CurrentLevelLoaded[0].Length - 1)
+                    if (RoomCoord.x < CurrentLevelLoaded[0].Length - 1)
                     {
                         RoomCoord.x += 1;
                         JumpDoor = 3;
@@ -106,13 +113,13 @@ public class LevelManager : MonoBehaviour
                     break;
             }
 
-            
+
 
             //if we haven't loaded a room already, then load a new one
             if (CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].Walked != true) //!= true as we haven't set to false
             {
                 CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].Walked = true; //set the room as walked
-                CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room = Instantiate( levelCollection[Random.Range(0, levelCollection.Length)], transform); //and spawn the new shit
+                CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room = Instantiate(levelCollection[Random.Range(0, levelCollection.Length)], transform); //and spawn the new shit
                 CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room.SetActive(true); //should be redundant, but we never know.
                 //Debug.Log("Spawned new room @ + " + RoomCoord.x + " " + RoomCoord.y);
             }
@@ -122,11 +129,15 @@ public class LevelManager : MonoBehaviour
             }
             //if this works I'm probably gonna fucken cry omg
             Player.transform.position = GameObject.Find(CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room.name + "/" + JumpDoor.ToString()).transform.position;
-            Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+            Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
             movementDirection = MovementDirectionForLoad.stop;
         }
-
-
     }
+
+    public Vector2 GetRoomNumber()
+    {
+        return RoomCoord;
+    }
+
 }

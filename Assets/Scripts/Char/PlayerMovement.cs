@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,12 @@ public class PlayerMovement : MonoBehaviour
         left
     }
 
+    public GameObject NextDoor, LockedDoor;
 
+    private bool IsInDoorway;
+    private int doorwayNumer;
+    private float DoorLock;
+    private bool IsDoorLocked;
 
     private MovementDir DirectionMoved;
 
@@ -31,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     public Sprite[] LEGpiecesDown;
 
     private Rigidbody2D CharBody;
+    public LevelManager globalLevelManagement;
 
     private float SpriteUpdate;
     private int CurrentSprite = 0;
@@ -38,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        NextDoor.SetActive(false);
+        LockedDoor.SetActive(false);
         CharBody = GetComponent<Rigidbody2D>();
         if(TORSOpiecesRight.Length == 0  || TORSOpiecesLeft.Length == 0  || TORSOpiecesUp.Length == 0  || TORSOpiecesDown.Length == 0)
         {
@@ -52,6 +61,9 @@ public class PlayerMovement : MonoBehaviour
         Torso.sprite = TORSOpiecesDown[0];
         Legs.sprite = LEGpiecesDown[0];
         SpriteUpdate = Time.time;
+        DoorLock = Time.time;
+
+        IsInDoorway = false;
     }
 
     // Update is called once per frame
@@ -85,6 +97,12 @@ public class PlayerMovement : MonoBehaviour
             //gameObject.transform.position += new Vector3(0.1f, 0.0f, 0.0f) * Input.GetAxis("Horizontal");
             CharBody.velocity += new Vector2(10.0f, 0.0f) * Input.GetAxis("Horizontal") * Time.deltaTime;
         }
+
+        if(Input.GetKey(KeyCode.E) && IsInDoorway)
+        {
+            globalLevelManagement.MovementSystem((LevelManager.MovementDirectionForLoad)doorwayNumer);
+        }
+
 
         if(CharBody.velocity.magnitude > MaxSpeed)
         {
@@ -121,4 +139,56 @@ public class PlayerMovement : MonoBehaviour
                 CurrentSprite = 0;
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Doorway" && DoorLock + 1.25f < Time.time)
+        {
+            DoorLock = Time.time;
+            IsInDoorway = true;
+            string temp = collision.gameObject.name;
+            doorwayNumer = Int16.Parse(temp);
+
+            Vector2 currentRoom = globalLevelManagement.GetRoomNumber();
+
+            if (currentRoom.x == 0 || currentRoom.y == 0 || currentRoom.y == globalLevelManagement.MapSize - 1 || currentRoom.x == globalLevelManagement.MapSize - 1)
+            {
+                IsDoorLocked = true;
+            }
+            else
+            {
+                IsDoorLocked = false;
+            }
+
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Doorway")
+        {
+            IsInDoorway = false;
+        }
+    }
+
+    private void OnGUI()
+    {
+        if(IsInDoorway)
+        {
+            if(!IsDoorLocked)
+            {
+                NextDoor.SetActive(true);
+            }
+            else
+            {
+                LockedDoor.SetActive(true);
+            }
+        }
+        else
+        {
+            NextDoor.SetActive(false);
+            LockedDoor.SetActive(false);
+        }
+    }
+
 }
