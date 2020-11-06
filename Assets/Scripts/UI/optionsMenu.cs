@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class optionsMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject MainMenu;
     void Start()
     {
-        
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update()
+    public void BackButton()
     {
-        
+        MainMenu.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

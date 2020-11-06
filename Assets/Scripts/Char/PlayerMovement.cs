@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
         left
     }
 
+    public GameObject pauseMenu;
+
     public GameObject NextDoor, LockedDoor;
 
     private bool IsInDoorway;
@@ -45,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pauseMenu.SetActive(false);
         NextDoor.SetActive(false);
         LockedDoor.SetActive(false);
         CharBody = GetComponent<Rigidbody2D>();
@@ -103,6 +106,11 @@ public class PlayerMovement : MonoBehaviour
             globalLevelManagement.MovementSystem((LevelManager.MovementDirectionForLoad)doorwayNumer);
         }
 
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0.0f;
+        }
 
         if(CharBody.velocity.magnitude > MaxSpeed)
         {
@@ -142,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Doorway" && DoorLock + 1.25f < Time.time)
+        if(collision.gameObject.tag == "Doorway" && DoorLock + 0.25f < Time.time)
         {
             DoorLock = Time.time;
             IsInDoorway = true;

@@ -5,36 +5,38 @@ using UnityEngine.SceneManagement;
 //using UnityEngine.InputSystem;
 public class mainMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-
-    //// Update is called once per frame
-    ////PlayerControls controls;
-    //Vector2 movement;
-    //public void Awake()
-    //{
-    //    controls = new PlayerControls();
-
-    //    controls.MenuInteractions.Move.performed += ctx => movement = ctx.ReadValue<Vector2>();
-    //    controls.MenuInteractions.Move.canceled += ctx => movement = Vector2.zero;
-    //}
-
-    void select()
+    public GameObject OptionsMenu;
+    public GameObject Crying;
+    public void Start()
     {
-
+        Time.timeScale = 0.0f;
     }
+
     
     public void LoadGame()
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
+    {
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); //requesting clarification on this
+        gameObject.SetActive(false);
+        Time.timeScale = 1.0f;
+    }
 
-       public void quitGame()
-        {
-            Application.Quit();
-            Debug.Log("quit!");
-        }
+    public void LoadOptionsMenu()
+    {
+        gameObject.SetActive(false);
+        OptionsMenu.SetActive(true);
+    }
 
 
-    
+    public void LoadCryingButton()
+    {
+        Crying.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
+    public void quitGame()
+    {
+        Application.Quit(); // perhaps a pause / stop playback in editor function?
+
+        Debug.Log("quit!"); //safety system 
+    }
 }
