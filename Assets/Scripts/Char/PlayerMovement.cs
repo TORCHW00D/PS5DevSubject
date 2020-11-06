@@ -151,7 +151,21 @@ public class PlayerMovement : MonoBehaviour
 
             Vector2 currentRoom = globalLevelManagement.GetRoomNumber();
 
-            if (currentRoom.x == 0 || currentRoom.y == 0 || currentRoom.y == globalLevelManagement.MapSize - 1 || currentRoom.x == globalLevelManagement.MapSize - 1)
+            string DoorCollision = GameObject.Find(collision.gameObject.name).name;
+
+            if (currentRoom.y == 0  &&  DoorCollision == "0") /*|| currentRoom.y == 0 || currentRoom.y == globalLevelManagement.MapSize - 1 || currentRoom.x == globalLevelManagement.MapSize - 1*/
+            {
+                IsDoorLocked = true;
+            }
+            else if (currentRoom.x == globalLevelManagement.MapSize - 1 && DoorCollision == "1")
+            {
+                IsDoorLocked = true;
+            }
+            else if (currentRoom.y == globalLevelManagement.MapSize - 1 && DoorCollision == "2")
+            {
+                IsDoorLocked = true;
+            }
+            else if(currentRoom.x == 0 && DoorCollision == "3")
             {
                 IsDoorLocked = true;
             }
