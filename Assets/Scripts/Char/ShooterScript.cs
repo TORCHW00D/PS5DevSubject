@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//Thomas Wilson
+//Assignment 2
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

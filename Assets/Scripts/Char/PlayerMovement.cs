@@ -1,4 +1,7 @@
-﻿using System;
+﻿//Thomas Wilson
+//Assignment 2
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
     private float SpriteUpdate;
     private int CurrentSprite = 0;
 
+
+    private int Health;
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         DoorLock = Time.time;
 
         IsInDoorway = false;
+        Health = 100;
     }
 
     // Update is called once per frame
@@ -101,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
             CharBody.velocity += new Vector2(10.0f, 0.0f) * Input.GetAxis("Horizontal") * Time.deltaTime;
         }
 
-        if(Input.GetKey(KeyCode.E) && IsInDoorway)
+        if(Input.GetKey(KeyCode.E) && IsInDoorway && !IsDoorLocked)
         {
             globalLevelManagement.MovementSystem((LevelManager.MovementDirectionForLoad)doorwayNumer);
         }
@@ -146,11 +152,16 @@ public class PlayerMovement : MonoBehaviour
             if (CurrentSprite >= 4)
                 CurrentSprite = 0;
         }
+        if (Health < 0)
+        {
+            Time.timeScale = 0;
+            pauseMenu.SetActive(true);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Doorway" && DoorLock + 0.25f < Time.time)
+        if(collision.gameObject.tag == "Doorway" && DoorLock + 1.0f < Time.time)
         {
             DoorLock = Time.time;
             IsInDoorway = true;
@@ -211,6 +222,11 @@ public class PlayerMovement : MonoBehaviour
             NextDoor.SetActive(false);
             LockedDoor.SetActive(false);
         }
+    }
+
+    public void TakeDamage(int dmg)
+    {
+        Health -= dmg;
     }
 
 }
