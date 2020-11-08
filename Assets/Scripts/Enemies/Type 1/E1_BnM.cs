@@ -6,8 +6,11 @@ using UnityEngine;
 
 public class E1_BnM : MonoBehaviour
 {
-    public GameObject PlayerChar;
+    private GameObject PlayerChar;
     public GameObject Rock;
+
+    public int Health;
+
     private RockScript RockAim;
     private Vector2 MovementDirection;
     public float MovementSpeedCap = 5.0f;
@@ -44,6 +47,9 @@ public class E1_BnM : MonoBehaviour
         status = EnemyType1State.Wander;
         WanderCooldown = Time.time;
         AttackCooldown = Time.time;
+
+        PlayerChar = GameObject.Find("Char");
+        Health = 20;
     }
 
     // Update is called once per frame
@@ -81,7 +87,10 @@ public class E1_BnM : MonoBehaviour
                 break;
 
             case EnemyType1State.Flee:
-
+                MovementDirection = PlayerChar.transform.position - gameObject.transform.position; //aim at the player
+                MovementDirection = MovementDirection.normalized;                                  //make it somewhat fair
+                MovementDirection = -1 * MovementDirection;
+                MovementDirection *= MovementSpeedCap;                                             //FULL FUCKEN SPEED YEET
 
                 break;
 
@@ -98,7 +107,9 @@ public class E1_BnM : MonoBehaviour
                 break;
         }
        
-        RB.velocity = MovementDirection;
+        RB.AddForce(MovementDirection);
+        if (RB.velocity.magnitude > MovementSpeedCap)
+            RB.velocity.Scale(new Vector2(0.9f,0.9f));
 
         if(SpriteUpdate + 0.2f < Time.time && status != EnemyType1State.Attack)
         {
@@ -143,6 +154,27 @@ public class E1_BnM : MonoBehaviour
                 transform.localScale = tempscale;
             }
             Enemy.sprite = EnemyAttack[CurrentSprite];
+        }
+        if(Health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void DamageCall( int dmg)
+    {
+        Health -= dmg;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("AoE_Damage"))
+        {
+            DamageCall(5);
+            Debug.Log("Collision!");
+            //RB.velocity = collision.gameObject.transform.position - gameObject.transform.position * MovementSpeedCap;
+            RB.AddForce(collision.transform.forward * -10, ForceMode2D.Impulse);
+            status = EnemyType1State.Flee;
         }
     }
 }

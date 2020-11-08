@@ -55,24 +55,24 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            movementDirection = MovementDirectionForLoad.up;
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            movementDirection = MovementDirectionForLoad.right;
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            movementDirection = MovementDirectionForLoad.down;
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            movementDirection = MovementDirectionForLoad.left;
-        }
+        //if(Input.GetKeyDown(KeyCode.UpArrow))
+        //{
+        //    movementDirection = MovementDirectionForLoad.up;
+        //}
+        //if (Input.GetKeyDown(KeyCode.RightArrow))
+        //{
+        //    movementDirection = MovementDirectionForLoad.right;
+        //}
+        //if (Input.GetKeyDown(KeyCode.DownArrow))
+        //{
+        //    movementDirection = MovementDirectionForLoad.down;
+        //}
+        //if (Input.GetKeyDown(KeyCode.LeftArrow))
+        //{
+        //    movementDirection = MovementDirectionForLoad.left;
+        //}
 
-        MovementSystem(movementDirection);
+        //MovementSystem(movementDirection);
 
     }
 

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
         left
     }
 
+    public Slider Healthbar;
+
     public GameObject pauseMenu;
 
     public GameObject NextDoor, LockedDoor;
@@ -24,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     private int doorwayNumer;
     private float DoorLock;
     private bool IsDoorLocked;
+
+    public GameObject ThrownRock;
+    private float AttackCooldown;
 
     private MovementDir DirectionMoved;
 
@@ -48,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
     private int CurrentSprite = 0;
 
 
+    private CircleCollider2D HurtCircle;
+
     private int Health;
     // Start is called before the first frame update
     void Start()
@@ -55,12 +63,14 @@ public class PlayerMovement : MonoBehaviour
         pauseMenu.SetActive(false);
         NextDoor.SetActive(false);
         LockedDoor.SetActive(false);
+
         CharBody = GetComponent<Rigidbody2D>();
+        
+
         if(TORSOpiecesRight.Length == 0  || TORSOpiecesLeft.Length == 0  || TORSOpiecesUp.Length == 0  || TORSOpiecesDown.Length == 0)
         {
             Debug.LogError("Catastrophic failure; missing some TORSO sprites for character.");
         }
-
         if(LEGpiecesRight.Length == 0 || LEGpiecesLeft.Length == 0 || LEGpiecesUp.Length == 0 || LEGpiecesDown.Length == 0)
         {
             Debug.LogError("Catastrophic failure; missing some LEG sprites for character.");
@@ -70,9 +80,22 @@ public class PlayerMovement : MonoBehaviour
         Legs.sprite = LEGpiecesDown[0];
         SpriteUpdate = Time.time;
         DoorLock = Time.time;
-
         IsInDoorway = false;
+
         Health = 100;
+        Healthbar.maxValue = Health;
+
+        AttackCooldown = Time.time;
+
+        GameObject PlayerAoE = new GameObject("PlayerAoE");
+        PlayerAoE.transform.SetParent(gameObject.transform);
+        PlayerAoE.AddComponent<CircleCollider2D>();
+        HurtCircle = PlayerAoE.GetComponent<CircleCollider2D>();
+        HurtCircle.radius = 1.0f;
+        HurtCircle.offset = new Vector2(0.0f, -0.1f);
+        HurtCircle.isTrigger = true;
+        PlayerAoE.tag = "AoE_Damage";
+        HurtCircle.enabled = false;
     }
 
     // Update is called once per frame
@@ -80,7 +103,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Input.GetAxis("Vertical") > 0.05 || Input.GetAxis("Vertical") < -0.05)
         {
-            //gameObject.transform.position += new Vector3(0.0f, 0.1f, 0.0f) * Input.GetAxis("Vertical");
             CharBody.velocity += new Vector2(0.0f, 10.0f) * Input.GetAxis("Vertical") * Time.deltaTime;
             if(Input.GetAxis("Vertical") > 0.05)
             {
@@ -107,9 +129,18 @@ public class PlayerMovement : MonoBehaviour
             CharBody.velocity += new Vector2(10.0f, 0.0f) * Input.GetAxis("Horizontal") * Time.deltaTime;
         }
 
+        if(Input.GetMouseButton(1) && AttackCooldown + 1.5f < Time.time)
+        {
+            HurtCircle.enabled = !HurtCircle.enabled;
+            IEnumerator coroutine = StopHurtCircle(1.1f);
+            StartCoroutine(coroutine);
+        }
+
         if(Input.GetKey(KeyCode.E) && IsInDoorway && !IsDoorLocked)
         {
-            globalLevelManagement.MovementSystem((LevelManager.MovementDirectionForLoad)doorwayNumer);
+            GameObject temp = GameObject.Find("Enemy_Type_1");
+            if(temp == null)
+                globalLevelManagement.MovementSystem((LevelManager.MovementDirectionForLoad)doorwayNumer);
         }
 
         if(Input.GetKey(KeyCode.Escape))
@@ -208,13 +239,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if(IsInDoorway)
         {
-            if(!IsDoorLocked)
+            GameObject temp = GameObject.Find("Enemy_Type_1");
+            if (temp == null)
             {
-                NextDoor.SetActive(true);
-            }
-            else
-            {
-                LockedDoor.SetActive(true);
+                if (!IsDoorLocked)
+                {
+                    NextDoor.SetActive(true);
+                }
+                else
+                {
+                    LockedDoor.SetActive(true);
+                }
             }
         }
         else
@@ -222,11 +257,18 @@ public class PlayerMovement : MonoBehaviour
             NextDoor.SetActive(false);
             LockedDoor.SetActive(false);
         }
+        Healthbar.value = Health;
     }
 
     public void TakeDamage(int dmg)
     {
         Health -= dmg;
+    }
+
+    private IEnumerator StopHurtCircle(float toggletime)
+    {
+        yield return new WaitForSeconds(toggletime);
+        HurtCircle.enabled = false;
     }
 
 }
