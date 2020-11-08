@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class optionsMenu : MonoBehaviour
 {
     public GameObject MainMenu;
+    public GameObject  optionsFirstButton, optionsClosedButton;
     void Start()
     {
         gameObject.SetActive(false);
+        //EventSystem.current.SetSelectedGameObject(null);
+        //EventSystem.current.SetSelectedGameObject(optionsFirstButton);
     }
 
     // Update is called once per frame
@@ -15,5 +19,7 @@ public class optionsMenu : MonoBehaviour
     {
         MainMenu.SetActive(true);
         gameObject.SetActive(false);
+        //EventSystem.current.SetSelectedGameObject(null);
+        //EventSystem.current.SetSelectedGameObject(optionsClosedButton);
     }
 }

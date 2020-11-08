@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class pauseMenu : MonoBehaviour
 {
     public static bool isGamePaused = false;
 
+    public GameObject pauseFirstButton, optionsFirstButton, optionsClosedButton;
+
     [SerializeField] GameObject PauseMenu;
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown (KeyCode.Escape )) //Needs a joystick button
+        if(Input.GetKeyDown (KeyCode.Escape )) 
         {
             if(isGamePaused )
             {
@@ -38,5 +41,8 @@ public class pauseMenu : MonoBehaviour
         PauseMenu.SetActive(true);
         Time.timeScale = 0f;
         isGamePaused = true;
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(pauseFirstButton);
     }
 }
