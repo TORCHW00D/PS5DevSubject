@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
         left
     }
 
+    public LazerAttack LazerWeapon; 
+
     public Slider Healthbar;
 
     public GameObject pauseMenu;
@@ -129,11 +131,29 @@ public class PlayerMovement : MonoBehaviour
             CharBody.velocity += new Vector2(10.0f, 0.0f) * Input.GetAxis("Horizontal") * Time.deltaTime;
         }
 
-        if(Input.GetMouseButton(1) && AttackCooldown + 1.5f < Time.time)
+        if(Input.GetMouseButton(1) && AttackCooldown + 0.5f < Time.time)
         {
             HurtCircle.enabled = !HurtCircle.enabled;
             IEnumerator coroutine = StopHurtCircle(1.1f);
             StartCoroutine(coroutine);
+            AttackCooldown = Time.time;
+        }
+
+        if(Input.GetMouseButton(0) && AttackCooldown + 0.5f < Time.time)
+        {
+            GameObject Object;
+            if (CharBody.velocity.magnitude != 0.0)
+                Object = LazerWeapon.FireLazer(CharBody.velocity.normalized);
+            else
+                Object = LazerWeapon.FireLazer(gameObject.transform.right);
+
+            if(Object.GetComponent<EnemyBaseScript>())
+            {
+                Object.GetComponent<EnemyBaseScript>().TakeDamage(5);
+            }
+            IEnumerator enumerator = StopLazer(0.1f);
+            StartCoroutine(enumerator);
+            AttackCooldown = Time.time;
         }
 
         if(Input.GetKey(KeyCode.E) && IsInDoorway && !IsDoorLocked)
@@ -269,6 +289,12 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(toggletime);
         HurtCircle.enabled = false;
+    }
+
+    private IEnumerator StopLazer(float toggletime)
+    {
+        yield return new WaitForSeconds(toggletime);
+        LazerWeapon.StopLazer();
     }
 
 }

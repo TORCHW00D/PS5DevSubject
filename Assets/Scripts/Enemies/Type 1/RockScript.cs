@@ -19,7 +19,7 @@ public class RockScript : MonoBehaviour
 
     public void SetTrajectory(Vector2 aim)
     {
-        Trajectory = aim * 5.0f;
+        Trajectory = aim * 3.0f;
     }
 
     // Update is called once per frame

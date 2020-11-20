@@ -19,6 +19,5 @@ public class CharFollower : MonoBehaviour
     void LateUpdate()
     {
         gameObject.transform.position = new Vector3( CharToFollow.transform.position.x, CharToFollow.transform.position.y, -10.0f);
-        
     }
 }
