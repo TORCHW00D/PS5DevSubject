@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 //using UnityEngine.InputSystem;
 public class mainMenu : MonoBehaviour
 {
     public GameObject OptionsMenu;
     public GameObject Crying;
+    public GameObject optionsFirstButton, optionsFirstButton2;
     public void Start()
     {
         Time.timeScale = 0.0f;
@@ -24,6 +26,8 @@ public class mainMenu : MonoBehaviour
     {
         gameObject.SetActive(false);
         OptionsMenu.SetActive(true);
+       EventSystem.current.SetSelectedGameObject(null);
+       EventSystem.current.SetSelectedGameObject(optionsFirstButton);
     }
 
 
@@ -31,6 +35,8 @@ public class mainMenu : MonoBehaviour
     {
         Crying.SetActive(true);
         gameObject.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsFirstButton2);
     }
 
     public void quitGame()
