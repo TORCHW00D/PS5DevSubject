@@ -158,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKey(KeyCode.E) && IsInDoorway && !IsDoorLocked)
         {
-            GameObject temp = GameObject.Find("Enemy_Type_1");
+            GameObject temp = GameObject.Find("Enemy");
             if(temp == null)
                 globalLevelManagement.MovementSystem((LevelManager.MovementDirectionForLoad)doorwayNumer);
         }
@@ -259,7 +259,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(IsInDoorway)
         {
-            GameObject temp = GameObject.Find("Enemy_Type_1");
+            GameObject temp = GameObject.Find("Enemy");
             if (temp == null)
             {
                 if (!IsDoorLocked)
