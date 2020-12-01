@@ -31,6 +31,8 @@ public class EnemyBaseScript : MonoBehaviour
     protected int AtkStatus;
     protected float AttackCooldown;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +47,9 @@ public class EnemyBaseScript : MonoBehaviour
         {
             Debug.LogError("Could not find Player in Base Script start: " + gameObject.name);
         }
+
+
+        
     }
 
     // Update is called once per frame
@@ -69,6 +74,9 @@ public class EnemyBaseScript : MonoBehaviour
             //Debug.Log("Wandering.");
             status = StateMachine.Wander;
         }
+
+      
+
 
         //perform calculations on enemy based off state machine
         switch(status)
@@ -109,6 +117,8 @@ public class EnemyBaseScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        
     }
 
     protected virtual void Enemy_Attack() { }

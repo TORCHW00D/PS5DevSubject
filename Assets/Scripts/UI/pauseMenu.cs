@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//Saugat KC
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -44,5 +46,13 @@ public class pauseMenu : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(pauseFirstButton);
+    }
+
+
+    public void quitGame()
+    {
+        Application.Quit(); // perhaps a pause / stop playback in editor function?
+
+        Debug.Log("quit!"); //safety system 
     }
 }
