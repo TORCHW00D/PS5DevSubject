@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 834020377988514757}
   - component: {fileID: 834020377988514756}
   - component: {fileID: 834020377988514759}
+  - component: {fileID: -7336696918534268618}
+  - component: {fileID: 5054327626155028182}
+  - component: {fileID: 5481015882226025387}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -26,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834020377988514758}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.34, y: 1.76, z: 0}
+  m_LocalPosition: {x: 9.65, y: 2.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -102,3 +105,69 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!61 &-7336696918534268618
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834020377988514758}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.025155067, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.9125, y: 0.9125}
+    newSize: {x: 0.9125, y: 0.9125}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.60407734, y: 0.9125}
+  m_EdgeRadius: 0
+--- !u!50 &5054327626155028182
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834020377988514758}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &5481015882226025387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834020377988514758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32fde10d5eadc1d42a38f6bc2b588581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerChar: {fileID: 6723223282362266409, guid: 8d5c66e3c5b59304782f620bdd787b55, type: 3}
+  ViewDistance: 3
+  AttackDistance: 2
+  AttackTiming: 2
+  RB: {fileID: 5054327626155028182}
+  Animator_Enemy: {fileID: 834020377988514759}
+  RockAttack: {fileID: 2050783713389323682, guid: 45e74dc68a2b28c4caedf8e10f9ebd68, type: 3}

@@ -43,13 +43,21 @@ public class EnemyBaseScript : MonoBehaviour
         status = StateMachine.Wander;
         WanderCooldown = Time.time + 5.0f;
 
-        if(!PlayerChar.activeSelf)
+        try
         {
-            Debug.LogError("Could not find Player in Base Script start: " + gameObject.name);
+            Vector3.Distance(gameObject.transform.position, PlayerChar.transform.position);
+        }
+        catch (UnassignedReferenceException)
+        {
+            Debug.Log("Running catch; locating player char.");
+            PlayerChar = GameObject.Find("Char");
         }
 
-
-        
+        if(PlayerChar == null)
+        {
+            Debug.LogError("Could not find Player in Base Script start: " + gameObject.name);
+            PlayerChar = GameObject.Find("Char");
+        }
     }
 
     // Update is called once per frame

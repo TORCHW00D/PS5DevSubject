@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8421634588488549976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.804, y: 0, z: 0}
+  m_LocalPosition: {x: -2.04, y: 1.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -46,16 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32fde10d5eadc1d42a38f6bc2b588581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerChar: {fileID: 0}
-  Rock: {fileID: 2050783713389323682, guid: 45e74dc68a2b28c4caedf8e10f9ebd68, type: 3}
-  MovementSpeedCap: 2
-  EnemyBody:
-  - {fileID: 21300000, guid: b01977816bc5ff94eb6ae5495d73c818, type: 3}
-  - {fileID: 21300000, guid: e8703c950ee823d4f867de0c96db301b, type: 3}
-  - {fileID: 21300000, guid: 3992a0cf18f695a4c8305282db43ea5e, type: 3}
-  EnemyAttack:
-  - {fileID: 21300000, guid: f8322815e1fcb84488e8f1fc22bdfbe8, type: 3}
-  - {fileID: 21300000, guid: e2cf9ff1eace01447b84906cfc44d6dc, type: 3}
+  PlayerChar: {fileID: 6723223282362266409, guid: 8d5c66e3c5b59304782f620bdd787b55, type: 3}
+  ViewDistance: 0
+  AttackDistance: 0
+  AttackTiming: 0
+  RB: {fileID: 8421634588488549972}
+  Animator_Enemy: {fileID: 0}
+  RockAttack: {fileID: 2050783713389323682, guid: 45e74dc68a2b28c4caedf8e10f9ebd68, type: 3}
 --- !u!212 &8421634588488549977
 SpriteRenderer:
   m_ObjectHideFlags: 0

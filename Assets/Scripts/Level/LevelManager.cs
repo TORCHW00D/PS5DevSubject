@@ -9,11 +9,11 @@ public class LevelManager : MonoBehaviour
 {
     public int MapSize = 11;
     public GameObject Player;
-
+    [SerializeField] GameObject[] EnemyPrefabs;
     private int EntryDoor;
 
     private GameObject[] levelCollection;
-
+    private static char[] SpawnPos = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
 
     private struct Room
     {
@@ -50,6 +50,11 @@ public class LevelManager : MonoBehaviour
         //Debug.Log("Spawned new room @ + " + RoomCoord.x + " " + RoomCoord.y);
 
         movementDirection = MovementDirectionForLoad.stop;
+        if(EnemyPrefabs.Length == 0)
+        {
+            Debug.LogError("No enemies loaded by LevelManager Script! Consider contacting god.");
+        }
+
     }
 
     // Update is called once per frame
@@ -106,6 +111,21 @@ public class LevelManager : MonoBehaviour
                 CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room = Instantiate(levelCollection[Random.Range(0, levelCollection.Length)], transform); //and spawn the new shit
                 CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room.SetActive(true); //should be redundant, but we never know.
                 //Debug.Log("Spawned new room @ + " + RoomCoord.x + " " + RoomCoord.y);
+
+                //load enemies here, cause this is only called when we're loading a new room
+                List<GameObject> tempEnemyBucket = new List<GameObject>();
+                for(int i = 0; i < Random.Range(1,9); i++)
+                {
+                    tempEnemyBucket.Add(EnemyPrefabs[Random.Range(0, EnemyPrefabs.Length)]); //add a random enemy for new rooms, between 1 & 8 count.
+                }
+                for(int i = 0; i < tempEnemyBucket.Count; i++)
+                {
+                    tempEnemyBucket[i].transform.position = GameObject.Find(CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room.name + "/" + SpawnPos[i].ToString()).transform.position;
+                    tempEnemyBucket[i].name = "Enemy";
+                    // set the transform for enemy (i) to the Current level's spawn point between a and h
+                    Instantiate(tempEnemyBucket[i]);
+                }
+                tempEnemyBucket.Clear();
             }
             else
             {
