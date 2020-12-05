@@ -102,8 +102,6 @@ public class LevelManager : MonoBehaviour
                     break;
             }
 
-
-
             //if we haven't loaded a room already, then load a new one
             if (CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].Walked != true) //!= true as we haven't set to false
             {
@@ -120,10 +118,10 @@ public class LevelManager : MonoBehaviour
                 }
                 for(int i = 0; i < tempEnemyBucket.Count; i++)
                 {
-                    tempEnemyBucket[i].transform.position = GameObject.Find(CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room.name + "/" + SpawnPos[i].ToString()).transform.position;
-                    tempEnemyBucket[i].name = "Enemy";
                     // set the transform for enemy (i) to the Current level's spawn point between a and h
-                    Instantiate(tempEnemyBucket[i]);
+                    tempEnemyBucket[i].transform.position = GameObject.Find(CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room.name + "/" + SpawnPos[i].ToString()).transform.position;
+                    tempEnemyBucket[i] = Instantiate(tempEnemyBucket[i]);
+                    tempEnemyBucket[i].name = "Enemy";
                 }
                 tempEnemyBucket.Clear();
             }
@@ -134,7 +132,6 @@ public class LevelManager : MonoBehaviour
             //if this works I'm probably gonna fucken cry omg
             Player.transform.position = GameObject.Find(CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room.name + "/" + JumpDoor.ToString()).transform.position;
             Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-
             movementDirection = MovementDirectionForLoad.stop;
         }
     }

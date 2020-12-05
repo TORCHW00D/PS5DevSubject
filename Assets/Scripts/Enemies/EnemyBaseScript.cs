@@ -11,7 +11,7 @@ public class EnemyBaseScript : MonoBehaviour
     
     protected int Health = 100;
 
-    protected float MovementSpeedCap = 1.0f;
+    protected float MovementSpeedCap = 3.0f;
     protected Vector2 MovementDirection;
 
     [SerializeField] protected float ViewDistance;
@@ -34,7 +34,7 @@ public class EnemyBaseScript : MonoBehaviour
     
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         RB = gameObject.GetComponent<Rigidbody2D>();
         if (RB == null)
@@ -43,28 +43,14 @@ public class EnemyBaseScript : MonoBehaviour
         status = StateMachine.Wander;
         WanderCooldown = Time.time + 5.0f;
 
-        try
-        {
-            Vector3.Distance(gameObject.transform.position, PlayerChar.transform.position);
-        }
-        catch (UnassignedReferenceException)
-        {
-            Debug.Log("Running catch; locating player char.");
-            PlayerChar = GameObject.Find("Char");
-        }
-
-        if(PlayerChar == null)
-        {
-            Debug.LogError("Could not find Player in Base Script start: " + gameObject.name);
-            PlayerChar = GameObject.Find("Char");
-        }
+        PlayerChar = GameObject.Find("Char");
     }
 
     // Update is called once per frame
     void Update()
     {
         //process statemachine code for Enemy AI
-        if(Vector3.Distance(gameObject.transform.position, PlayerChar.transform.position) <= AttackDistance && 
+        if( Vector3.Distance(gameObject.transform.position, PlayerChar.transform.position) <= AttackDistance && 
             Vector3.Distance(gameObject.transform.position, PlayerChar.transform.position) > 1.0f &&
             status != StateMachine.Attack)
         {
@@ -107,19 +93,46 @@ public class EnemyBaseScript : MonoBehaviour
 
             case StateMachine.Flee:
                 MovementDirection = PlayerChar.transform.position - gameObject.transform.position; //aim at the player
-                MovementDirection = MovementDirection.normalized;                                  //make it somewhat fair
-                MovementDirection = -1 * MovementDirection;
+                MovementDirection = MovementDirection.normalized;                                  
+                MovementDirection = -1 * MovementDirection;                                        //full tilt away from player w/ -1 speed
                 MovementDirection *= MovementSpeedCap;                                             //FULL FUCKEN SPEED YEET
 
                 break;
 
             case StateMachine.Attack:
                 Enemy_Attack();
+                Animator_Enemy.SetBool("isAttacking", false);
                 break;
         }
-        RB.AddForce(MovementDirection);
+        RB.velocity = MovementDirection;
         if (RB.velocity.magnitude > MovementSpeedCap)
             RB.velocity.Scale(new Vector2(0.9f, 0.9f));
+        if(RB.velocity.magnitude > 0.0f)
+        {
+            Animator_Enemy.SetFloat("Speed", 1.0f);
+            if(RB.velocity.x > 0.05)
+            {
+                Animator_Enemy.SetFloat("Horizontal", 1.0f);
+            }
+            else if(RB.velocity.x < -0.05)
+            {
+                Animator_Enemy.SetFloat("Horizontal", -1.0f);
+            }
+            if(RB.velocity.y > 0.05)
+            {
+                Animator_Enemy.SetFloat("Vertical", 1.0f);
+            }
+            else if (RB.velocity.y < -0.05)
+            {
+                Animator_Enemy.SetFloat("Vertical", -1.0f);
+            }
+        }
+        else
+        {
+            Animator_Enemy.SetFloat("Speed", 0.0f);
+            Animator_Enemy.SetFloat("Vertical", 0.0f);
+            Animator_Enemy.SetFloat("Horizontal", 0.0f);
+        }
         //bad kill function, but it is what it is.
         if(Health <= 0)
         {

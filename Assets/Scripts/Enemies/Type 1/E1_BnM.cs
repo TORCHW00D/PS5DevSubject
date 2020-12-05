@@ -15,6 +15,7 @@ public class E1_BnM : EnemyBaseScript
     {
         if (AttackCooldown + AttackTiming < Time.time)
         {
+            Animator_Enemy.SetBool("isAttacking", true);
             AttackCooldown = Time.time;
             GameObject Rock = Instantiate(RockAttack, gameObject.transform.position, transform.rotation);
             RockScript rock = Rock.GetComponent<RockScript>();

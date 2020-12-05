@@ -34,7 +34,7 @@ public class RockScript : MonoBehaviour
         
         if(collision.gameObject.name == "Char" && HoldTimeUntilDamage + 0.1f < Time.time)
         {
-            PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
+            PlayerMovAnimated player = collision.gameObject.GetComponent<PlayerMovAnimated>();
             player.TakeDamage(Damage);
             Destroy(gameObject);
         }
