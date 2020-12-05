@@ -20,6 +20,7 @@ public class PlayerMovAnimated : MonoBehaviour
     public LazerAttack Char_Laz_Wep;
 
     public Slider Char_Health_Bar;
+    public Slider AudioSourceVolumeSlider;
 
     public GameObject Char_Pause_Menu;
 
@@ -43,6 +44,9 @@ public class PlayerMovAnimated : MonoBehaviour
 
     private CircleCollider2D HurtCircle;
     private Animator Char_Animator;
+
+    private AudioSource RunningSFX;
+
     private int Health;
     // Start is called before the first frame update
     void Start()
@@ -72,6 +76,12 @@ public class PlayerMovAnimated : MonoBehaviour
         HurtCircle.enabled = false;
 
         Char_Animator = GetComponent<Animator>();
+        RunningSFX = GetComponent<AudioSource>();
+        RunningSFX.mute = true;
+        AudioSourceVolumeSlider.minValue = 0.0f;
+        AudioSourceVolumeSlider.maxValue = 1.0f;
+
+
     }
 
     // Update is called once per frame
@@ -171,6 +181,16 @@ public class PlayerMovAnimated : MonoBehaviour
                 break;
         }
         
+        if(CharBody.velocity.magnitude > 0.1f)
+        {
+            RunningSFX.mute = false;
+        }
+        else
+        {
+            RunningSFX.mute = true;
+        }
+
+
         if (Health < 0)
         {
             Time.timeScale = 0;
@@ -246,6 +266,7 @@ public class PlayerMovAnimated : MonoBehaviour
             Char_Locked_Door.SetActive(false);
         }
         Char_Health_Bar.value = Health;
+        RunningSFX.volume = AudioSourceVolumeSlider.value;
     }
 
     public void TakeDamage(int dmg)
