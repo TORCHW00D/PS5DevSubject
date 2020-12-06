@@ -728,9 +728,105 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5ae62661565b5ce4dac43f5f86941cbb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.359
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &285585830
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285585828}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: af0bee5d6aab3a44cbc3dd1b18d687e1, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2011,7 +2107,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.2784314, g: 0.2784314, b: 0.2784314, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -3789,7 +3885,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1004104664}
-  - component: {fileID: 1004104665}
   m_Layer: 5
   m_Name: UI/HUD Objects
   m_TagString: Untagged
@@ -3819,22 +3914,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -1820, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1004104665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1004104663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18798cc571e7d814da54a47dc9e11db9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseFirstButton: {fileID: 0}
-  optionsFirstButton: {fileID: 0}
-  optionsClosedButton: {fileID: 0}
-  PauseMenu: {fileID: 0}
 --- !u!1 &1020543981
 GameObject:
   m_ObjectHideFlags: 0
@@ -4995,6 +5074,7 @@ GameObject:
   - component: {fileID: 1253005641}
   - component: {fileID: 1253005643}
   - component: {fileID: 1253005642}
+  - component: {fileID: 1253005644}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -5068,6 +5148,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1253005640}
   m_CullTransparentMesh: 0
+--- !u!114 &1253005644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253005640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0adf098fa92d02b43914535a854fac8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameElements:
+  - {fileID: 1396760094}
+  - {fileID: 43226251}
+  - {fileID: 1035832722}
+  - {fileID: 631181133}
+  - {fileID: 611239839}
+  - {fileID: 1718371305}
+  - {fileID: 1813602608}
+  - {fileID: 342903443}
 --- !u!1 &1268894048
 GameObject:
   m_ObjectHideFlags: 0
@@ -5722,6 +5823,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 285585830, guid: 8d5c66e3c5b59304782f620bdd787b55, type: 3}
+      propertyPath: SFX.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 285585830, guid: 8d5c66e3c5b59304782f620bdd787b55, type: 3}
       propertyPath: Char_Health_Bar
       value: 
       objectReference: {fileID: 1747393083}
@@ -5745,6 +5850,14 @@ PrefabInstance:
       propertyPath: AudioSourceVolumeSlider
       value: 
       objectReference: {fileID: 208031149}
+    - target: {fileID: 285585830, guid: 8d5c66e3c5b59304782f620bdd787b55, type: 3}
+      propertyPath: SFX.Array.data[0]
+      value: 
+      objectReference: {fileID: 285585829}
+    - target: {fileID: 285585830, guid: 8d5c66e3c5b59304782f620bdd787b55, type: 3}
+      propertyPath: SFX.Array.data[1]
+      value: 
+      objectReference: {fileID: 285585830}
     - target: {fileID: 285585831, guid: 8d5c66e3c5b59304782f620bdd787b55, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -7122,7 +7235,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -11.5}
+  m_AnchoredPosition: {x: 0, y: 71}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2067945691
@@ -7158,14 +7271,18 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'WASD to move around
+  m_Text: 'Left thumb stick to move
 
-    Right click to attack AoE
+    Right thumb stick to aim
 
-    E to progress
-    through doors
+    Left trigger
+    Melee
 
-    (You''ll need to kill the enemies first)'
+    Right trigger Lazor
+
+    X to open doors
+
+    Start for pause menu'
 --- !u!222 &2067945692
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7513,6 +7630,10 @@ PrefabInstance:
     - target: {fileID: 2053450076346718801, guid: 422d86d9c28d1f347850ae732b3d5aec, type: 3}
       propertyPath: m_FontData.m_VerticalOverflow
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2053450076346718801, guid: 422d86d9c28d1f347850ae732b3d5aec, type: 3}
+      propertyPath: m_Text
+      value: Press "X" to go through this door!
       objectReference: {fileID: 0}
     - target: {fileID: 2053450076346718831, guid: 422d86d9c28d1f347850ae732b3d5aec, type: 3}
       propertyPath: m_Name

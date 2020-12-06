@@ -45,7 +45,7 @@ public class PlayerMovAnimated : MonoBehaviour
     private CircleCollider2D HurtCircle;
     private Animator Char_Animator;
 
-    private AudioSource RunningSFX;
+    public AudioSource[] SFX;
 
     private int Health;
     // Start is called before the first frame update
@@ -76,8 +76,11 @@ public class PlayerMovAnimated : MonoBehaviour
         HurtCircle.enabled = false;
 
         Char_Animator = GetComponent<Animator>();
-        RunningSFX = GetComponent<AudioSource>();
-        RunningSFX.mute = true;
+        //SFX = GetComponent<AudioSource>();
+        for(int i = 0; i < SFX.Length; i++)
+        {
+            SFX[i].mute = true;
+        }
         AudioSourceVolumeSlider.minValue = 0.0f;
         AudioSourceVolumeSlider.maxValue = 1.0f;
 
@@ -121,7 +124,7 @@ public class PlayerMovAnimated : MonoBehaviour
             CharBody.velocity += new Vector2(10.0f, 0.0f) * Input.GetAxis("Horizontal") * Time.deltaTime;
         }
 
-        if (Input.GetMouseButton(1) && AttackCooldown + 0.5f < Time.time)
+        if ((Input.GetMouseButton(1) && AttackCooldown + 0.5f < Time.time) || (Input.GetAxis("Secondary Fire") > 0.01f && AttackCooldown + 0.5f < Time.time))
         {
             HurtCircle.enabled = !HurtCircle.enabled;
             IEnumerator coroutine = StopHurtCircle(1.1f);
@@ -130,31 +133,41 @@ public class PlayerMovAnimated : MonoBehaviour
             Char_Animator.SetBool("isAttacking", true);
         }
 
-        if (Input.GetMouseButton(0) && AttackCooldown + 0.5f < Time.time)
+        if ((Input.GetMouseButton(0) && AttackCooldown + 0.5f < Time.time) || (Input.GetAxis("Primary Fire") > 0.01f && AttackCooldown + 0.5f < Time.time))
         {
             GameObject Object;
-            if (CharBody.velocity.magnitude != 0.0)
-                Object = Char_Laz_Wep.FireLazer(CharBody.velocity.normalized);
+            SFX[1].Play();
+            SFX[1].mute = false;
+            if(Input.GetAxis("RTS-X") != 0.0f || Input.GetAxis("RTS-Y") != 0.0f)
+            {
+                Vector2 RTS_aim = new Vector2(Input.GetAxis("RTS-X"), Input.GetAxis("RTS-Y"));
+                Object = Char_Laz_Wep.FireLazer(RTS_aim);
+            }
             else
-                Object = Char_Laz_Wep.FireLazer(gameObject.transform.right);
+            {
+                if (CharBody.velocity.magnitude != 0.0)
+                    Object = Char_Laz_Wep.FireLazer(CharBody.velocity.normalized);
+                else
+                    Object = Char_Laz_Wep.FireLazer(gameObject.transform.right);
+            }
 
             if (Object.GetComponent<EnemyBaseScript>())
             {
-                Object.GetComponent<EnemyBaseScript>().TakeDamage(5);
+                Object.GetComponent<EnemyBaseScript>().TakeDamage(15);
             }
             IEnumerator enumerator = StopLazer(0.1f);
             StartCoroutine(enumerator);
             AttackCooldown = Time.time;
         }
 
-        if (Input.GetKey(KeyCode.E) && IsInDoorway && !IsDoorLocked)
+        if ((Input.GetKey(KeyCode.E) || Input.GetButton("X")) && IsInDoorway && !IsDoorLocked)
         {
             GameObject temp = GameObject.Find("Enemy");
             if (temp == null)
                 globalLevelManagement.MovementSystem((LevelManager.MovementDirectionForLoad)doorwayNumer);
         }
 
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.Escape) || Input.GetButton("Start"))
         {
             Char_Pause_Menu.SetActive(true);
             Time.timeScale = 0.0f;
@@ -183,11 +196,11 @@ public class PlayerMovAnimated : MonoBehaviour
         
         if(CharBody.velocity.magnitude > 0.1f)
         {
-            RunningSFX.mute = false;
+            SFX[0].mute = false;
         }
         else
         {
-            RunningSFX.mute = true;
+            SFX[0].mute = true;
         }
 
 
@@ -266,7 +279,10 @@ public class PlayerMovAnimated : MonoBehaviour
             Char_Locked_Door.SetActive(false);
         }
         Char_Health_Bar.value = Health;
-        RunningSFX.volume = AudioSourceVolumeSlider.value;
+        for(int i = 0; i < SFX.Length; i++)
+        {
+            SFX[i].volume = AudioSourceVolumeSlider.value;
+        }
     }
 
     public void TakeDamage(int dmg)
