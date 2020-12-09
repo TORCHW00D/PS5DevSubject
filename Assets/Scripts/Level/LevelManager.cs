@@ -5,8 +5,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+using TMPro;
+using JetBrains.Annotations;
+
 public class LevelManager : MonoBehaviour
 {
+    public int currentScore = 0;
+    public int highscore = 0;
+    public TMP_Text uiScore;
+
     public int MapSize = 11;
     public GameObject Player;
     [SerializeField] GameObject[] EnemyPrefabs;
@@ -139,6 +147,12 @@ public class LevelManager : MonoBehaviour
     public Vector2 GetRoomNumber()
     {
         return RoomCoord;
+    }
+
+    public void UpdateScore(int amount)
+    {
+        currentScore += amount;
+        uiScore.text = "Score : " + currentScore.ToString();
     }
 
 }

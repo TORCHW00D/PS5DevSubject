@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class optionsMenu : MonoBehaviour
 {
     public GameObject MainMenu;
-    //public GameObject OptionsMenu;
+   // public GameObject HighScore;
     public GameObject   optionsClosedButton;
     void Start()
     {
@@ -28,4 +28,13 @@ public class optionsMenu : MonoBehaviour
        EventSystem.current.SetSelectedGameObject(null);
        EventSystem.current.SetSelectedGameObject(optionsClosedButton);
     }
+
+    /*public void HighScoreButton()
+    {
+        HighScore.SetActive(true);
+        gameObject.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsClosedButton);
+    }
+    */
 }
