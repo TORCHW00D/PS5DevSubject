@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class pauseMenu : MonoBehaviour
 {
@@ -12,12 +13,15 @@ public class pauseMenu : MonoBehaviour
     public GameObject pauseFirstButton, optionsFirstButton, optionsClosedButton;
 
     public GameObject PauseMenu;
-    // Update is called once per frame
+
+    public GameObject StartMenu;
+    private bool isPauseAllowed;
+
     void Update()
     {
-        if(Input.GetKeyDown (KeyCode.Escape) || Input.GetButtonDown("Start")) 
+        if((Input.GetKeyDown (KeyCode.Escape) || Input.GetButtonDown("Start"))) 
         {
-            if(isGamePaused )
+            if(isGamePaused)
             {
                 resumeGame();
             }
@@ -26,7 +30,6 @@ public class pauseMenu : MonoBehaviour
                 pauseGame();
             }
         }
-       
     }
 
 
@@ -46,13 +49,15 @@ public class pauseMenu : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(pauseFirstButton);
+
     }
 
 
+    
     public void quitGame()
     {
         Application.Quit(); // perhaps a pause / stop playback in editor function?
 
-        Debug.Log("quit!"); //safety system 
+        //Debug.Log("quit!"); //safety system 
     }
 }

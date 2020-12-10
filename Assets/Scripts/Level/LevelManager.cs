@@ -14,6 +14,8 @@ public class LevelManager : MonoBehaviour
     public int currentScore = 0;
     public int highscore = 0;
     public TMP_Text uiScore;
+    public TMP_Text uiHiScore;
+    private string UISCORESTRING;
 
     public int MapSize = 11;
     public GameObject Player;
@@ -42,6 +44,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        uiHiScore.text = "Highscore: " + PlayerPrefs.GetInt("Score").ToString();
         CurrentLevelLoaded = new Room[MapSize][];
         for(int i = 0; i < MapSize; i++)
         {
@@ -113,6 +116,7 @@ public class LevelManager : MonoBehaviour
             //if we haven't loaded a room already, then load a new one
             if (CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].Walked != true) //!= true as we haven't set to false
             {
+                UpdateScore(100);
                 CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].Walked = true; //set the room as walked
                 CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room = Instantiate(levelCollection[Random.Range(0, levelCollection.Length)], transform); //and spawn the new shit
                 CurrentLevelLoaded[(int)RoomCoord.x][(int)RoomCoord.y].room.SetActive(true); //should be redundant, but we never know.
@@ -152,7 +156,18 @@ public class LevelManager : MonoBehaviour
     public void UpdateScore(int amount)
     {
         currentScore += amount;
-        uiScore.text = "Score : " + currentScore.ToString();
+        UISCORESTRING = "Score : " + currentScore.ToString();
+    }
+
+    private void OnGUI()
+    {
+        uiScore.text = UISCORESTRING;
+    }
+
+    public void OnDieSaveMyScore()
+    {
+        if(currentScore > PlayerPrefs.GetInt("Score"))
+            PlayerPrefs.SetInt("Score", currentScore);
     }
 
 }

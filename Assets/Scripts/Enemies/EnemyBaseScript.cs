@@ -136,6 +136,7 @@ public class EnemyBaseScript : MonoBehaviour
         //bad kill function, but it is what it is.
         if(Health <= 0)
         {
+            GameObject.Find("Level Management System").GetComponent<LevelManager>().UpdateScore(10);
             Destroy(gameObject);
         }
 

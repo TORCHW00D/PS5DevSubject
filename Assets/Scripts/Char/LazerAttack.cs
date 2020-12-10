@@ -28,8 +28,6 @@ public class LazerAttack : MonoBehaviour
         lazerSpawnPoint.name = "Lazer Spawn";
         lazerSpawnPoint.gameObject.transform.position = gameObject.transform.position;
 
-        
-
         LazerBeam = gameObject.AddComponent<LineRenderer>();
         LazerBeam.enabled = false;
         LazerBeam.startWidth = 0.1f;

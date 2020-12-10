@@ -23,15 +23,18 @@ public class mainMenu : MonoBehaviour
         gameObject.SetActive(false);
         Time.timeScale = 1.0f;
     }
+    public void RestartButton() //Tom Wilson
+    {
+        SceneManager.LoadScene("MainScene");
+    }
 
     public void LoadOptionsMenu()
     {
         gameObject.SetActive(false);
         OptionsMenu.SetActive(true);
-       EventSystem.current.SetSelectedGameObject(null);
-       EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
     }
-
 
     public void LoadCryingButton()
     {

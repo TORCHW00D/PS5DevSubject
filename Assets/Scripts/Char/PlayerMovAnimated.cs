@@ -48,9 +48,12 @@ public class PlayerMovAnimated : MonoBehaviour
     public AudioSource[] SFX;
 
     private int Health;
+
+    private Vector2 AimDir;
     // Start is called before the first frame update
     void Start()
     {
+        AimDir = new Vector2(0.0f, 0.0f);
         Char_Pause_Menu.SetActive(false);
         Char_Next_Door.SetActive(false);
         Char_Locked_Door.SetActive(false);
@@ -90,7 +93,11 @@ public class PlayerMovAnimated : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis("Vertical") > 0.05 || Input.GetAxis("Vertical") < -0.05)
+        AimDir.x = Input.GetAxis("RTSX");
+        AimDir.y = -1 * Input.GetAxis("RTSY");
+
+        
+        if (Input.GetAxis("Vertical") > 0.05 || Input.GetAxis("Vertical") < -0.05)//Vertical
         {
             Char_Animator.SetFloat("Speed", 1.0f);
 
@@ -107,7 +114,7 @@ public class PlayerMovAnimated : MonoBehaviour
             CharBody.velocity += new Vector2(0.0f, 10.0f) * Input.GetAxis("Vertical") * Time.deltaTime;
         }
 
-        if (Input.GetAxis("Horizontal") > 0.05 || Input.GetAxis("Horizontal") < -0.05)
+        if (Input.GetAxis("Horizontal") > 0.05 || Input.GetAxis("Horizontal") < -0.05) //Horizontal        
         {
             Char_Animator.SetFloat("Speed", 1.0f);
 
@@ -138,18 +145,20 @@ public class PlayerMovAnimated : MonoBehaviour
             GameObject Object;
             SFX[1].Play();
             SFX[1].mute = false;
-            if(Input.GetAxis("RTS-X") != 0.0f || Input.GetAxis("RTS-Y") != 0.0f)
-            {
-                Vector2 RTS_aim = new Vector2(Input.GetAxis("RTS-X"), Input.GetAxis("RTS-Y"));
-                Object = Char_Laz_Wep.FireLazer(RTS_aim);
-            }
-            else
-            {
-                if (CharBody.velocity.magnitude != 0.0)
-                    Object = Char_Laz_Wep.FireLazer(CharBody.velocity.normalized);
-                else
-                    Object = Char_Laz_Wep.FireLazer(gameObject.transform.right);
-            }
+            //if (Input.GetAxis("RTSX") != 0.0f || Input.GetAxis("RTSY") != 0.0f)
+            //{
+            //    Vector2 rts_aim = new Vector2(Input.GetAxis("RTSX"), Input.GetAxis("RTSY"));
+            //    Object = Char_Laz_Wep.FireLazer(rts_aim);
+            //}
+            //else
+            //{
+            //    if (CharBody.velocity.magnitude != 0.0)
+            //        Object = Char_Laz_Wep.FireLazer(CharBody.velocity.normalized);
+            //    else
+            //        Object = Char_Laz_Wep.FireLazer(gameObject.transform.right);
+            //}
+
+            Object = Char_Laz_Wep.FireLazer(AimDir);
 
             if (Object.GetComponent<EnemyBaseScript>())
             {
@@ -206,6 +215,7 @@ public class PlayerMovAnimated : MonoBehaviour
 
         if (Health < 0)
         {
+            globalLevelManagement.OnDieSaveMyScore();
             Time.timeScale = 0;
             Char_Pause_Menu.SetActive(true);
         }
